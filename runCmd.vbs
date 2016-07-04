@@ -4,7 +4,8 @@ const module_ver	= "1.0"
 const module_title	= "runCMD"
 
 sub Init
-  addMenuItem "&RunCMD", "", "externalCommand", "Shift+Ctrl+Alt+C"
+  addMenuItem "Run &CMD In Current Dir"     , module_name, "RunCMD"     , "Shift+Ctrl+Alt+C"
+  addMenuItem "Run &GitBash In Current Dir" , module_name, "RunGitBash" , "Ctrl+Alt+C"
 end sub
 
 'Gets ParentFolder?
@@ -20,13 +21,12 @@ Function ExtractFilePath( strPath )
     ExtractFilePath = Left(strPath, InStrRev(strPath, Chr(92)))
 End Function
 
-
-sub externalCommand
+Sub RunCMD
   Set activeEditor = newEditor()
   activeEditor.assignActiveEditor()
 
     cmdArgs = Chr(34) & ExtractFilePath(activeEditor.fileName()) & Chr(34)
-     'NOTE: cmdArgs can contain multiple commands by separating them with && like this: cmdArgs = "cd\php && php.exe"
+    'NOTE: cmdArgs can contain multiple commands by separating them with && like this: cmdArgs = "cd\php && php.exe"
 
     Set wshShell = CreateObject( "WScript.Shell" )
     wshShell.Run "cmd.exe /K cd /d " & cmdArgs , 1, False
@@ -34,7 +34,16 @@ sub externalCommand
      '                                    0 = hide dos window
      '                    /K = keep dos window open when application terminates
      '                    /C = close dos window when application terminates
-
     Set wshShell = Nothing
     Set editor = Nothing
-end sub
+End Sub
+
+Sub RunGitBash
+    Set activeEditor = newEditor()
+    activeEditor.assignActiveEditor()
+    cmdArgs = Chr(34) & ExtractFilePath(activeEditor.fileName()) & Chr(34)
+    Set wshShell = CreateObject( "WScript.Shell" )
+    wshShell.Run "cmd.exe /K cd /d """ & cmdArgs & """ & sh --login -i"
+    Set wshShell = Nothing
+    Set editor = Nothing
+End Sub

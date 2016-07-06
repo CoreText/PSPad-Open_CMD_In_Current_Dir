@@ -6,7 +6,7 @@ Run CMD In Current Directory "Shift+Ctrl+Alt+C" <br />
 Run GitBash In Current Directory "Ctrl+Alt+C"
 
 ### Installation
-Add runCMD.vbs to PSPad/Script/VBScript directory
+Add _runCMD.vbs_ to _PSPad/Script/VBScript/_ directory.
 
 <hr />
 ### Related repos
